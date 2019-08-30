@@ -6,6 +6,7 @@ data class MyDate(val year: Int, val month: Int, val dayOfMonth: Int) {
         month != other.month -> month - other.month
         else -> dayOfMonth - other.dayOfMonth
     }
+
 }
 
 operator fun MyDate.rangeTo(other: MyDate): DateRange = todoTask27()
@@ -16,4 +17,10 @@ enum class TimeInterval {
     YEAR
 }
 
-class DateRange(val start: MyDate, val endInclusive: MyDate)
+class DateRange(val start: MyDate, val endInclusive: MyDate) {
+
+    operator fun contains(value: MyDate): Boolean {
+        return start <= value && value <= endInclusive
+    }
+
+}
