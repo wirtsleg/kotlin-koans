@@ -7,6 +7,9 @@ data class MyDate(val year: Int, val month: Int, val dayOfMonth: Int) {
         else -> dayOfMonth - other.dayOfMonth
     }
 
+    operator fun plus(interval: TimeInterval): MyDate = this.addTimeIntervals(interval, 1)
+    operator fun plus(interval: RepeatedTimeInterval): MyDate = this.addTimeIntervals(interval.timeInterval, interval.number)
+
 }
 
 operator fun MyDate.rangeTo(other: MyDate): DateRange = DateRange(this, other)
@@ -14,8 +17,15 @@ operator fun MyDate.rangeTo(other: MyDate): DateRange = DateRange(this, other)
 enum class TimeInterval {
     DAY,
     WEEK,
-    YEAR
+    YEAR;
+
+    operator fun times(multiplier: Int): RepeatedTimeInterval {
+        return RepeatedTimeInterval(this, multiplier)
+    }
+
 }
+
+class RepeatedTimeInterval(val timeInterval: TimeInterval, val number: Int)
 
 class DateRange(val start: MyDate, val endInclusive: MyDate) : Iterable<MyDate> {
 
